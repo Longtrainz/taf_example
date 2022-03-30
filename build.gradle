@@ -1,0 +1,83 @@
+plugins {
+    id 'java-library'
+    id 'application'
+    id 'io.qameta.allure' version '2.9.6'
+    id 'idea'
+}
+
+repositories {
+    mavenCentral()
+}
+
+def junitVersion = "5.7.0",
+    junitPlatformVersion = "1.7.0",
+    selenideVersion = "5.25.0",
+    ownerVersion = "1.0.12",
+    allureVersion = "2.14.0",
+    aspectjVersion = "1.9.6",
+    restAssuredVersion = "4.3.1",
+    jacksonVersion = "2.12.2",
+    lombokVersion = "1.18.20",
+    fakerVersion = "1.0.2",
+    assertjVersion = "3.19.0"
+
+allure {
+    version = allureVersion
+}
+
+//allure {
+//    version = allureVersion
+//    autoconfigure = true
+//    aspectjweaver = true
+//    configuration = "testImplementation"
+//    useJUnit5 {
+//        version = allureVersion
+//    }
+//}
+
+dependencies {
+    compileOnly "org.projectlombok:lombok:$lombokVersion"
+    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+    testCompileOnly "org.projectlombok:lombok:$lombokVersion"
+    testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
+
+    testImplementation(
+            "org.junit.jupiter:junit-jupiter:$junitVersion",
+            "com.codeborne:selenide:$selenideVersion",
+            "org.aeonbits.owner:owner:$ownerVersion",
+            "io.qameta.allure:allure-selenide:$allureVersion",
+            "org.aspectj:aspectjweaver:$aspectjVersion",
+            "com.github.javafaker:javafaker:$fakerVersion",
+            "io.rest-assured:rest-assured:$restAssuredVersion",
+            "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion",
+            "io.qameta.allure:allure-rest-assured:$allureVersion",
+            "org.assertj:assertj-core:$assertjVersion")
+
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher:${junitPlatformVersion}"
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+tasks.withType(Test) {
+    useJUnitPlatform()
+    systemProperties += System.properties
+
+    if (System.getProperty("threads") != null) {
+        systemProperties += [
+                'junit.jupiter.execution.parallel.enabled'                 : true,
+                'junit.jupiter.execution.parallel.mode.default'            : 'same_thread',
+                'junit.jupiter.execution.parallel.mode.classes.default'    : 'concurrent',
+                'junit.jupiter.execution.parallel.config.strategy'         : 'fixed',
+                'junit.jupiter.execution.parallel.config.fixed.parallelism': System.getProperty("threads").toInteger()
+        ]
+    }
+}
+
+task web(type: Test) {
+    useJUnitPlatform {
+        includeTags 'web'
+    }
+    systemProperty 'platform', 'web'
+}
