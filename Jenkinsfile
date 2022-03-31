@@ -6,14 +6,14 @@ node {
     }
 
     stage("build") {
-        bat 'gradle.bat clean web:assemble'
+        bat 'gradle.bat clean assemble'
     }
 
     stage("run api tests") {
-        bat "clean api"
+        bat "gradle.bat api"
     }
 
     stage("run ui tests") {
-        bat "clean web"
+        bat "gradle.bat web"
     }
 }
