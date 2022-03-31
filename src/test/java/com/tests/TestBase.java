@@ -21,7 +21,7 @@ public class TestBase {
 	@BeforeAll
 	static void setUp() {
 		RestAssured.baseURI = envConfig.apiUrl();
-		Configuration.baseUrl = envConfig.webUrl();
+		Configuration.baseUrl = "https://automationintesting.online";
 		Configuration.timeout = 4000;
 		DriverHelper.configureDriver();
 	}
