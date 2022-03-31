@@ -9,11 +9,12 @@ node {
         bat 'gradle.bat clean assemble'
     }
 
+    stage("run ui tests") {
+            bat "gradle.bat web"
+        }
+    }
+
     stage("run api tests") {
         bat "gradle.bat api"
     }
 
-    stage("run ui tests") {
-        bat "gradle.bat web"
-    }
-}
