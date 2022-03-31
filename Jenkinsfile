@@ -6,7 +6,7 @@ node {
     }
 
     stage("build") {
-        bat "clean web:assemble"
+        bat 'gradlew.bat clean web:assemble'
     }
 
     stage("run api tests") {
