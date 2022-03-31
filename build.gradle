@@ -41,17 +41,19 @@ dependencies {
     testCompileOnly "org.projectlombok:lombok:$lombokVersion"
     testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
 
-    testImplementation(
-            "org.junit.jupiter:junit-jupiter:$junitVersion",
-            "com.codeborne:selenide:$selenideVersion",
+    implementation(
             "org.aeonbits.owner:owner:$ownerVersion",
+            "io.qameta.allure:allure-rest-assured:$allureVersion",
+            "com.codeborne:selenide:$selenideVersion",
+            "org.junit.jupiter:junit-jupiter:$junitVersion",
             "io.qameta.allure:allure-selenide:$allureVersion",
             "org.aspectj:aspectjweaver:$aspectjVersion",
             "com.github.javafaker:javafaker:$fakerVersion",
             "io.rest-assured:rest-assured:$restAssuredVersion",
             "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion",
-            "io.qameta.allure:allure-rest-assured:$allureVersion",
-            "org.assertj:assertj-core:$assertjVersion")
+            "org.assertj:assertj-core:$assertjVersion",
+            "io.rest-assured:json-schema-validator:4.3.3"
+    )
 
     testRuntimeOnly "org.junit.platform:junit-platform-launcher:${junitPlatformVersion}"
 }
@@ -78,6 +80,13 @@ tasks.withType(Test) {
 task web(type: Test) {
     useJUnitPlatform {
         includeTags 'web'
+        systemProperties(System.getProperties())
     }
-    systemProperty 'platform', 'web'
+}
+
+task api(type: Test) {
+    useJUnitPlatform {
+        includeTags 'api'
+        systemProperties(System.getProperties())
+    }
 }
