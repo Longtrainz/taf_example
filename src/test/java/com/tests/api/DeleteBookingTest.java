@@ -26,7 +26,7 @@ public class DeleteBookingTest {
 
     @BeforeEach()
     void createBookingForDeletion() {
-        bookingService.healthCheckRequest();
+//        bookingService.healthCheckRequest();
 
         step("Create booking and extract it's booking id for further deletion", () -> {
             Booking booking = utils.getRandomBookingData();
