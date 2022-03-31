@@ -9,6 +9,16 @@ repositories {
     mavenCentral()
 }
 
+
+    repositories {
+        maven {
+            def releasesRepoUrl = layout.buildDirectory.dir('repos/releases')
+            def snapshotsRepoUrl = layout.buildDirectory.dir('repos/snapshots')
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+        }
+    }
+
+
 def junitVersion = "5.7.0",
     junitPlatformVersion = "1.7.0",
     selenideVersion = "5.25.0",
