@@ -9,11 +9,11 @@ node {
             sh "./gradlew clean web:assemble"
     }
 
-     stage("build") {
-                sh "./gradlew clean web"
+    stage("run api tests") {
+                sh "./gradlew clean api"
     }
 
-     stage("build") {
-                sh "./gradlew clean api"
+    stage("run ui tests") {
+                sh "./gradlew clean web"
     }
 }
