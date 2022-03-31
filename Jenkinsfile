@@ -6,14 +6,14 @@ node {
     }
 
     stage("build") {
-        sh "./gradlew clean web:assemble"
+        bat "clean web:assemble"
     }
 
     stage("run api tests") {
-        sh "./gradlew clean api"
+        bat "clean api"
     }
 
     stage("run ui tests") {
-        sh "./gradlew clean web"
+        bat "clean web"
     }
 }
