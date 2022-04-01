@@ -14,7 +14,9 @@ node {
     }
 
     stage("run ui tests") {
-            bat "gradle.bat web"
+        bat "gradle.bat web"
+            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                bat 'exit /B 0'
         }
     }
-
+}
