@@ -1,4 +1,5 @@
 def suiteName = env.TEST_SUITE
+def build_ok = true
 
 node {
     stage("checkout repo") {
