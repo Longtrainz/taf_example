@@ -18,7 +18,7 @@ node {
 
         try {
             stage("run api tests") {
-                bat 'gradle.bat api -Dthreads=${threads}'
+                bat "gradle.bat api -Dthreads=${threads}"
                 bat 'exit /B 0'
             }
         }   catch (e) {
