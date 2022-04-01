@@ -1,8 +1,9 @@
-def build_ok = true
+// def build_ok = true
+def name = env.TEST_SUITE
 
-def stage(name, execute, block) {
-    return stage(name, execute ? block : {echo "skipped stage $name"})
-}
+// def stage(name, execute, block) {
+//     return stage(name, execute ? block : {echo "skipped stage $name"})
+// }
 
 node {
     stage("checkout repo", true) {
@@ -26,7 +27,7 @@ node {
               build_ok = false
             }
     } else {
-        {echo "skipped stage $name"}
+        echo "skipped stage $name"
     }
 
     if (env.TEST_SUITE == "UI") {
@@ -39,7 +40,7 @@ node {
                 build_ok = false
             }
         } else {
-             {echo "skipped stage $name"}
+             echo "skipped stage $name"
          }
 
 
