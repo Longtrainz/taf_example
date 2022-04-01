@@ -103,3 +103,10 @@ task api(type: Test) {
         systemProperties(System.getProperties())
     }
 }
+
+task json_validation(type: Test) {
+    useJUnitPlatform {
+        includeTags 'json'
+        systemProperties(System.getProperties())
+    }
+}

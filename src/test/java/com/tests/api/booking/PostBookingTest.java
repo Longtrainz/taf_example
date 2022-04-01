@@ -1,4 +1,4 @@
-package com.tests.api;
+package com.tests.api.booking;
 
 import framework.api.services.BookingService;
 import framework.helpers.Utils;
@@ -7,6 +7,7 @@ import framework.models.booking.response.BookingResponse;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import io.qameta.allure.junit5.AllureJunit5;
+import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -19,28 +20,29 @@ import static io.qameta.allure.Allure.step;
 @Story("Booking API")
 @Tag("api")
 @ExtendWith({AllureJunit5.class})
-public class DeleteBookingTest {
-    private int createdBookingId;
+public class PostBookingTest {
     private final Utils utils = new Utils();
     private final BookingService bookingService = new BookingService();
 
     @BeforeEach()
-    void createBookingForDeletion() {
-//        bookingService.healthCheckRequest();
-
-        step("Create booking and extract it's booking id for further deletion", () -> {
-            Booking booking = utils.getRandomBookingData();
-            createdBookingId = bookingService.post(booking).as(BookingResponse.class).bookingid();
-        });
+    void before() {
+        bookingService.healthCheckRequest();
     }
 
     @Test
-    @DisplayName("Delete booking via API test")
-    void deleteBookingTest() {
-        bookingService.delete(createdBookingId);
-        step(String.format(
-                "Verify booking id #%s doesn't exist by making GET request", createdBookingId), () -> {
-            bookingService.get(createdBookingId, 404);
+    @DisplayName("Create booking via API test")
+    void postBookingTest() {
+        // Get random Booking data object
+        Booking expectedBookingData = utils.getRandomBookingData();
+
+        // Create new Booking using POST API method and extract response
+        Response response = bookingService.post(expectedBookingData);
+
+        // Get Booking object from response
+        Booking actualBookingData = response.as(BookingResponse.class).booking();
+
+        step("Verify payload booking object equals to response booking object", () -> {
+            utils.verifyObjectsEqual(actualBookingData, expectedBookingData);
         });
     }
 }

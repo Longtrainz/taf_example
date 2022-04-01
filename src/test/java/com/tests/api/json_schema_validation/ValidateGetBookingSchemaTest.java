@@ -1,4 +1,4 @@
-package com.tests.api;
+package com.tests.api.json_schema_validation;
 
 import framework.api.services.BookingService;
 import framework.helpers.Utils;
@@ -19,9 +19,9 @@ import static io.qameta.allure.Allure.step;
 
 @Feature("Booking")
 @Story("Booking API")
-@Tag("api")
+@Tag("json")
 @ExtendWith({AllureJunit5.class})
-public class GetBookingTest {
+public class ValidateGetBookingSchemaTest {
     private int createdBookingId;
     private final Utils utils = new Utils();
     private final BookingService bookingService = new BookingService();
@@ -37,7 +37,7 @@ public class GetBookingTest {
     }
 
     @Test
-    @DisplayName("Get booking via API test")
+    @DisplayName("Validate json schema for GET booking request")
     void getBookingTest() {
         Response response = bookingService.get(createdBookingId, 200);
         utils.validateJsonSchema(response, GET_BOOKING_RESPONSE_SCHEMA);
