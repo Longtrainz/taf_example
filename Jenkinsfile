@@ -1,5 +1,6 @@
 def suiteName = env.TEST_SUITE
 def browser = env.BROWSER_NAME
+def threads = env.THREADS
 def build_ok = true
 
 node {
@@ -17,7 +18,7 @@ node {
 
         try {
             stage("run api tests") {
-                bat 'gradle.bat api'
+                bat 'gradle.bat api -Dthreads=${threads}'
                 bat 'exit /B 0'
             }
         }   catch (e) {
@@ -30,7 +31,7 @@ node {
     if (suiteName == "UI" || suiteName == "ALL") {
         try {
             stage("run ui tests") {
-                bat "gradle.bat web -Dbrowser.name=${browser}"
+                bat "gradle.bat web -Dbrowser.name=${browser} -Dthreads=${threads}"
                 bat 'exit /B 0'
             }
         }   catch (e) {
