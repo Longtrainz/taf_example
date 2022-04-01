@@ -16,7 +16,6 @@ node {
         }
     } catch(e) {
         build_ok = false
-        echo e.toString()
     }
 
    stage("run api tests") {
