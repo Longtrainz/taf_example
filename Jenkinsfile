@@ -1,4 +1,5 @@
 def suiteName = env.TEST_SUITE
+def browser = env.BROWSER_NAME
 def build_ok = true
 
 node {
@@ -29,7 +30,7 @@ node {
     if (suiteName == "UI" || suiteName == "ALL") {
         try {
             stage("run ui tests") {
-                bat "gradle.bat web"
+                bat "gradle.bat web -Dbrowser.name= ${browser}"
                 bat 'exit /B 0'
             }
         }   catch (e) {
