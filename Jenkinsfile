@@ -15,25 +15,33 @@ node {
         bat 'gradle.bat clean assemble'
     }
 
+    if (env.TEST_SUITE == "API") {
 
-    try {
-        stage("run api tests", false) {
-            bat 'gradle.bat api'
-            bat 'exit /B 0'
-        }
-    } catch (e) {
-          build_ok = false
-      }
-
-
-    try {
-        stage("run ui tests", false) {
-            bat "gradle.bat web"
-            bat 'exit /B 0'
-        }
-    } catch (e) {
-        build_ok = false
+        try {
+            stage("run api tests") {
+                bat 'gradle.bat api'
+                bat 'exit /B 0'
+            }
+        }   catch (e) {
+              build_ok = false
+            }
+    } else {
+        echo "skipped stage $name"
     }
+
+    if (env.TEST_SUITE == "UI") {
+        try {
+            stage("run ui tests") {
+                bat "gradle.bat web"
+                bat 'exit /B 0'
+            }
+        }   catch (e) {
+                build_ok = false
+            }
+        } else {
+             echo "skipped stage $name"
+         }
+
 
     if (build_ok) {
             currentBuild.result = "SUCCESS"
