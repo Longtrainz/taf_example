@@ -1,5 +1,5 @@
 // def build_ok = true
-def name = env.TEST_SUITE
+def suiteName = env.TEST_SUITE
 
 // def stage(name, execute, block) {
 //     return stage(name, execute ? block : {echo "skipped stage $name"})
@@ -16,7 +16,7 @@ node {
         bat 'gradle.bat clean assemble'
     }
 
-    if (env.TEST_SUITE == "API") {
+    if (suiteName == "API" || suiteName == "ALL") {
 
         try {
             stage("run api tests") {
@@ -30,7 +30,7 @@ node {
         echo "skipped stage $name"
     }
 
-    if (env.TEST_SUITE == "UI") {
+    if (suiteName == "UI" || suiteName == "ALL") {
         try {
             stage("run ui tests") {
                 bat "gradle.bat web"
