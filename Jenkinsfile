@@ -9,9 +9,17 @@ node {
         bat 'gradle.bat clean assemble'
     }
 
+
     try {
         stage("run api tests") {
-            bat 'gradle.bat api'
+            when {
+                // Only say hello if a "greeting" is requested
+                expression { '$TEST_SUITE'== 'ALL' || '$TEST_SUITE'== 'API' }
+            }
+            steps {
+                bat 'gradle.bat api'
+                bat 'exit /B 0'
+            }
         }
     } catch (e) {
           build_ok = false
@@ -20,8 +28,14 @@ node {
 
     try {
         stage("run ui tests") {
-            bat "gradle.bat web"
-            bat 'exit /B 0'
+            when {
+                // Only say hello if a "greeting" is requested
+                expression { '$TEST_SUITE'== 'ALL' || '$TEST_SUITE'== 'UI' }
+            }
+            steps {
+                bat "gradle.bat web"
+                bat 'exit /B 0'
+            }
         }
     } catch (e) {
         build_ok = false
