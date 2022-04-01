@@ -22,7 +22,7 @@ node {
               build_ok = false
             }
     } else {
-        echo  "skipped stage {$name}"
+        echo  "skipped stage {$suiteName}"
     }
 
     if (suiteName == "UI" || suiteName == "ALL") {
@@ -35,7 +35,7 @@ node {
                 build_ok = false
             }
         } else {
-             echo "skipped stage {$name}"
+             echo "skipped stage {$suiteName}"
          }
 
 
