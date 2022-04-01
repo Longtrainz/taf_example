@@ -42,6 +42,18 @@ node {
              echo "skipped stage UI"
          }
 
+    stage('Reports') {
+        steps {
+            allure([
+                includeProperties: false,
+                jdk: '',
+                properties: [],
+                reportBuildPolicy: 'ALWAYS',
+                results: [[path: 'build/allure-results']]
+            ])
+        }
+    }
+
 
     if (build_ok) {
             currentBuild.result = "SUCCESS"
