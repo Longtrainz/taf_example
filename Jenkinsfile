@@ -9,11 +9,14 @@ node {
         bat 'gradle.bat clean assemble'
     }
 
-    stage("run ui tests") {
-        bat "gradle.bat web"
-            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                bat 'exit /B 0'
+ try{
+        stage("run ui tests") {
+            bat "gradle.bat web"
+            bat 'exit /B 0'
         }
+    } catch(e) {
+        build_ok = false
+        echo e.toString()
     }
 
    stage("run api tests") {
