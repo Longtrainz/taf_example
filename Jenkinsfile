@@ -26,7 +26,7 @@ node {
               build_ok = false
             }
     } else {
-        echo "skipped stage $name"
+        {echo "skipped stage $name"}
     }
 
     if (env.TEST_SUITE == "UI") {
@@ -39,7 +39,7 @@ node {
                 build_ok = false
             }
         } else {
-             echo "skipped stage $name"
+             {echo "skipped stage $name"}
          }
 
 
