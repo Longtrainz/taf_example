@@ -9,7 +9,16 @@ node {
         bat 'gradle.bat clean assemble'
     }
 
- try {
+    try {
+        stage("run api tests") {
+            bat 'gradle.bat api'
+        }
+    } catch (e) {
+          build_ok = false
+      }
+
+
+    try {
         stage("run ui tests") {
             bat "gradle.bat web"
             bat 'exit /B 0'
@@ -18,11 +27,7 @@ node {
         build_ok = false
     }
 
-   stage("run api tests") {
-        bat 'gradle.bat api'
-    }
-
-     if (build_ok) {
+    if (build_ok) {
             currentBuild.result = "SUCCESS"
         } else {
             currentBuild.result = "FAILURE"
