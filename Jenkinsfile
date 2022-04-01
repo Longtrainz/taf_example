@@ -12,14 +12,8 @@ node {
 
     try {
         stage("run api tests") {
-            when {
-                // Only say hello if a "greeting" is requested
-                expression { '$TEST_SUITE'== 'ALL' || '$TEST_SUITE'== 'API' }
-            }
-            steps {
-                bat 'gradle.bat api'
-                bat 'exit /B 0'
-            }
+            bat 'gradle.bat api'
+            bat 'exit /B 0'
         }
     } catch (e) {
           build_ok = false
@@ -28,14 +22,8 @@ node {
 
     try {
         stage("run ui tests") {
-            when {
-                // Only say hello if a "greeting" is requested
-                expression { '$TEST_SUITE'== 'ALL' || '$TEST_SUITE'== 'UI' }
-            }
-            steps {
-                bat "gradle.bat web"
-                bat 'exit /B 0'
-            }
+            bat "gradle.bat web"
+            bat 'exit /B 0'
         }
     } catch (e) {
         build_ok = false
