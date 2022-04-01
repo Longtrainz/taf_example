@@ -1,6 +1,7 @@
 def suiteName = env.TEST_SUITE
 def browser = env.BROWSER_NAME
 def threads = env.THREADS
+def remoteUrl = env.REMOTE_URL
 def build_ok = true
 
 node {
@@ -18,7 +19,7 @@ node {
 
         try {
             stage("run api tests") {
-                bat "gradle.bat api -Dthreads=${threads}"
+                bat "gradle.bat api -Dthreads=${threads} -Dweb.remote.driver.url=REMOTE_URL"
                 bat 'exit /B 0'
             }
         }   catch (e) {
@@ -31,7 +32,7 @@ node {
     if (suiteName == "UI" || suiteName == "ALL") {
         try {
             stage("run ui tests") {
-                bat "gradle.bat web -Dbrowser.name=${browser} -Dthreads=${threads}"
+                bat "gradle.bat web -Dbrowser.name=${browser} -Dthreads=${threads} -Dweb.remote.driver.url=REMOTE_URL"
                 bat 'exit /B 0'
             }
         }   catch (e) {
