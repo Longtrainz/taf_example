@@ -10,7 +10,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import static com.codeborne.selenide.Selenide.closeWebDriver;
-import static framework.config.ConfigHelper.*;
+import static framework.config.ConfigHelper.driverConfig;
+import static framework.config.ConfigHelper.envConfig;
 import static framework.helpers.AttachmentsHelper.*;
 
 @ExtendWith({ AllureJunit5.class})
@@ -19,8 +20,8 @@ public class TestBase {
 
 	@BeforeAll
 	static void setUp() {
-		RestAssured.baseURI = getApiUrl();
-		Configuration.baseUrl = getWebUrl();
+		RestAssured.baseURI = envConfig.apiUrl();
+		Configuration.baseUrl = envConfig.webUrl();
 		Configuration.timeout = 4000;
 		DriverHelper.configureDriver();
 	}
@@ -35,8 +36,8 @@ public class TestBase {
 
 		closeWebDriver();
 
-//		if (!driverConfig.videoStorage().equals("")) {
-//			attachVideo(sessionId);
-//		}
+		if (!driverConfig.videoStorage().equals("")) {
+			attachVideo(sessionId);
+		}
 	}
 }
