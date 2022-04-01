@@ -19,7 +19,7 @@ node {
 
         try {
             stage("run api tests") {
-                bat "gradle.bat api -Dthreads=${threads} -Dweb.remote.driver.url=REMOTE_URL"
+                bat "gradle.bat api -Dthreads=${threads} -Dweb.remote.driver.url=${remoteUrl}"
                 bat 'exit /B 0'
             }
         }   catch (e) {
@@ -32,7 +32,7 @@ node {
     if (suiteName == "UI" || suiteName == "ALL") {
         try {
             stage("run ui tests") {
-                bat "gradle.bat web -Dbrowser.name=${browser} -Dthreads=${threads} -Dweb.remote.driver.url=REMOTE_URL"
+                bat "gradle.bat web -Dbrowser.name=${browser} -Dthreads=${threads} -Dweb.remote.driver.url=${remoteUrl}"
                 bat 'exit /B 0'
             }
         }   catch (e) {
