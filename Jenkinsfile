@@ -30,7 +30,7 @@ node {
     if (suiteName == "UI" || suiteName == "ALL") {
         try {
             stage("run ui tests") {
-                bat "gradle.bat web -Dbrowser.name= ${browser}"
+                bat "gradle.bat web -Dbrowser.name=${browser}"
                 bat 'exit /B 0'
             }
         }   catch (e) {
