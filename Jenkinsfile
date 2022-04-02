@@ -54,7 +54,7 @@ node {
         echo  "skipped stage API"
     }
 
-    if (params.TEST_SUITE == "UI" || params.TEST_SUITE == "ALL") {
+    if (suiteName == "UI" || suiteName == "ALL") {
         try {
             stage("run ui tests") {
                 bat "gradle.bat web -Dbrowser.name=${browser} -Dthreads=${threads} -Dweb.remote.driver.url=${remoteUrl}"
