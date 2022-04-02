@@ -36,50 +36,50 @@ node {
         url: 'https://github.com/Longtrainz/taf_example.git'
     }
 
-//     stage("build") {
-//         bat 'gradle.bat clean assemble'
-//     }
-//
-//     if (suiteName == "API" || suiteName == "ALL") {
-//
-//         try {
-//             stage("run api tests") {
-//                 bat "gradle.bat api -Dthreads=${threads} -Dweb.remote.driver.url=${remoteUrl}"
-//                 bat 'exit /B 0'
-//             }
-//         }   catch (e) {
-//               build_ok = false
-//             }
-//     } else {
-//         echo  "skipped stage API"
-//     }
-//
-//     if (suiteName == "UI" || suiteName == "ALL") {
-//         try {
-//             stage("run ui tests") {
-//                 bat "gradle.bat web -Dbrowser.name=${browser} -Dthreads=${threads} -Dweb.remote.driver.url=${remoteUrl}"
-//                 bat 'exit /B 0'
-//             }
-//         }   catch (e) {
-//                 build_ok = false
-//             }
-//         } else {
-//              echo "skipped stage UI"
-//          }
-//
-//     stage('Reports') {
-//         allure([
-//             includeProperties: false,
-//             jdk: '',
-//             properties: [],
-//             reportBuildPolicy: 'ALWAYS',
-//             results: [[path: 'build/allure-results']]
-//         ])
-//     }
-//
-//     if (build_ok) {
-//             currentBuild.result = "SUCCESS"
-//         } else {
-//             currentBuild.result = "FAILURE"
-//     }
+    stage("build") {
+        sh "./gradlew clean assemble"
+    }
+
+    if (suiteName == "API" || suiteName == "ALL") {
+
+        try {
+            stage("run api tests") {
+                sh "./gradlew api -Dthreads=${threads} -Dweb.remote.driver.url=${remoteUrl}"
+                sh 'exit 0'
+            }
+        }   catch (e) {
+              build_ok = false
+            }
+    } else {
+        echo  "skipped stage API"
+    }
+
+    if (suiteName == "UI" || suiteName == "ALL") {
+        try {
+            stage("run ui tests") {
+                sh "./gradlew web -Dbrowser.name=${browser} -Dthreads=${threads} -Dweb.remote.driver.url=${remoteUrl}"
+                sh 'exit 0'
+            }
+        }   catch (e) {
+                build_ok = false
+            }
+        } else {
+             echo "skipped stage UI"
+         }
+
+    stage('Reports') {
+        allure([
+            includeProperties: false,
+            jdk: '',
+            properties: [],
+            reportBuildPolicy: 'ALWAYS',
+            results: [[path: 'build/allure-results']]
+        ])
+    }
+
+    if (build_ok) {
+            currentBuild.result = "SUCCESS"
+        } else {
+            currentBuild.result = "FAILURE"
+    }
 }
