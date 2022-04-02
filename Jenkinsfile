@@ -32,7 +32,7 @@ def build_ok = true
 node {
     stage("checkout repo") {
         git branch: 'jenkins_docker',
-        credentialsId: '3bc3f354-87ef-42e2-ab67-c0b8b8a9de99',
+        credentialsId: '1dbdf731-0ac0-4cfa-97d4-ebe3de88835a',
         url: 'https://github.com/Longtrainz/taf_example.git'
     }
 
