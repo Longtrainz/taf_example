@@ -37,7 +37,7 @@ node {
     }
 
     stage("build") {
-        sh "./gradlew clean assemble"
+        sh "gradlew clean assemble"
     }
 
     if (suiteName == "API" || suiteName == "ALL") {
