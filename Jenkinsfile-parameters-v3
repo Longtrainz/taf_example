@@ -1,26 +1,10 @@
-// def suiteName = env.TEST_SUITE
-// def browser = env.BROWSER_NAME
-// def threads = env.THREADS
-// def remoteUrl = env.REMOTE_URL
-// def build_ok = true
+def suiteName = env.TEST_SUITE
+def browser = env.BROWSER_NAME
+def threads = env.THREADS
+def remoteUrl = env.REMOTE_URL
+def build_ok = true
 
-properties([
-    parameters([
-        choice(
-            description: "Choose test suite:",
-            choices: ['ALL','API','UI'],
-            name: 'TEST_SUITE'
-        ),
-         choice(
-            description: "Choose browser:",
-            choices: ['chrome','firefox'],
-            name: 'BROWSER_NAME'
-        ),
-        string(defaultValue: '2', name: 'THREADS'),
-        string(defaultValue: 'http://167.71.48.36:8080/wd/hub', name: 'REMOTE_URL')
-    ])
 
-])
 
 node {
     stage("checkout repo") {
@@ -33,11 +17,11 @@ node {
         bat 'gradle.bat clean assemble'
     }
 
-    if (params.TEST_SUITE == "API" || params.TEST_SUITE == "ALL") {
+    if (suiteName == "API" || suiteName == "ALL") {
 
         try {
             stage("run api tests") {
-                bat "gradle.bat api -Dthreads=${params.THREADS} -Dweb.remote.driver.url=${params.REMOTE_URL}"
+                bat "gradle.bat api -Dthreads=${threads} -Dweb.remote.driver.url=${remoteUrl}"
                 bat 'exit /B 0'
             }
         }   catch (e) {
@@ -47,10 +31,10 @@ node {
         echo  "skipped stage API"
     }
 
-    if (params.TEST_SUITE == "UI" || params.TEST_SUITE == "ALL") {
+    if (suiteName == "UI" || suiteName == "ALL") {
         try {
             stage("run ui tests") {
-                bat "gradle.bat web -Dbrowser.name=${params.BROWSER_NAME} -Dthreads=${params.THREADS} -Dweb.remote.driver.url=${params.REMOTE_URL}"
+                bat "gradle.bat web -Dbrowser.name=${browser} -Dthreads=${threads} -Dweb.remote.driver.url=${remoteUrl}"
                 bat 'exit /B 0'
             }
         }   catch (e) {
