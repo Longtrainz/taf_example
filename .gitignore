@@ -38,3 +38,4 @@ target/
 .vscode
 /gradlew
 /gradlew.bat
+/.gradle/
