@@ -10,14 +10,22 @@ properties([
             description: "Choose test suite:",
             choices: ['ALL','API','UI'],
             name: 'TEST_SUITE'
-        ),
+            ),
          choice(
             description: "Choose browser:",
             choices: ['chrome','firefox'],
             name: 'BROWSER_NAME'
-        ),
-        string(defaultValue: '2', name: 'THREADS'),
-        string(defaultValue: 'http://167.71.48.36:8080/wd/hub', name: 'REMOTE_URL')
+            ),
+        string(
+            description: "Choose threads number",
+            defaultValue: '2',
+            name: 'THREADS'
+            ),
+        string(
+            description: "Choose remote url",
+            defaultValue: 'http://167.71.48.36:8080/wd/hub',
+            name: 'REMOTE_URL'
+            )
     ])
 
 ])
