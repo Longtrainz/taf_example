@@ -3,6 +3,7 @@ plugins {
     id 'application'
     id 'io.qameta.allure' version '2.9.6'
     id 'idea'
+    id "org.sonarqube" version "3.3"
 }
 
 repositories {
