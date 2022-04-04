@@ -30,6 +30,21 @@ def remoteUrl = params.REMOTE_URL
 def build_ok = true
 
 node {
+    stage("SonarQube analysis") {
+        withSonarQubeEnv('SonarQube') {
+            sh './gradlew sonarqube'
+        }
+    }
+
+    stage("Quality Gate"){
+          timeout(time: 1, unit: 'HOURS') {
+              def qg = waitForQualityGate()
+              if (qg.status != 'OK') {
+                  error "Pipeline aborted due to quality gate failure: ${qg.status}"
+              }
+          }
+    }
+
     stage("checkout repo") {
         git branch: 'jenkins_docker',
         credentialsId: '1dbdf731-0ac0-4cfa-97d4-ebe3de88835a',
