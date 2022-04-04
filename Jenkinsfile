@@ -41,18 +41,31 @@ node {
     }
 
     stage("SonarQube analysis") {
-            withSonarQubeEnv('SonarQube') {
-                sh './gradlew sonarqube'
-            }
+        withSonarQubeEnv('SonarQube') {
+            sh './gradlew sonarqube'
         }
+    }
 
     stage("Quality Gate"){
-          timeout(time: 1, unit: 'HOURS') {
-              def qg = waitForQualityGate()
-              if (qg.status != 'OK') {
-                  error "Pipeline aborted due to quality gate failure: ${qg.status}"
-              }
+      timeout(time: 1, unit: 'HOURS') {
+          def qg = waitForQualityGate()
+          if (qg.status != 'OK') {
+              error "Pipeline aborted due to quality gate failure: ${qg.status}"
           }
+      }
+    }
+
+    if (suiteName == "VALIDATION" || suiteName == "ALL") {
+        try {
+            stage("run json validation tests") {
+                sh "./gradlew json_validation -Dbrowser.name=${browser} -Dthreads=${threads} -Dweb.remote.driver.url=${remoteUrl}"
+                sh 'exit 0'
+            }
+        }   catch (e) {
+                build_ok = false
+            }
+    } else {
+         echo "skipped stage VALIDATION"
     }
 
     if (suiteName == "API" || suiteName == "ALL") {
