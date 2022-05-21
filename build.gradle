@@ -80,6 +80,12 @@ tasks.withType(Test) {
     useJUnitPlatform()
     systemProperties += System.properties
 
+    testLogging {
+        showStandardStreams = true
+        events "PASSED", "FAILED"
+        exceptionFormat "full"
+    }
+
     if (System.getProperty("threads") != null) {
         systemProperties += [
                 'junit.jupiter.execution.parallel.enabled'                 : true,
