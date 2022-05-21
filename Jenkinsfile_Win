@@ -31,49 +31,21 @@ def build_ok = true
 
 node {
     stage("checkout repo") {
-        git branch: 'jenkins_docker',
-        credentialsId: 'a29ace9e-8dfb-4103-9bfb-04b56105e93dlure',
+        git branch: 'main',
+        credentialsId: 'd8de431a-87a6-4cc9-aef3-22eaf5455868',
         url: 'https://github.com/Longtrainz/taf_example.git'
     }
 
     stage("build") {
-        sh "./gradlew clean assemble"
-    }
-
-    stage("SonarQube analysis") {
-        withSonarQubeEnv('SonarQube') {
-            sh './gradlew sonarqube'
-        }
-    }
-
-    stage("Quality Gate"){
-      timeout(time: 1, unit: 'HOURS') {
-          def qg = waitForQualityGate()
-          if (qg.status != 'OK') {
-              error "Pipeline aborted due to quality gate failure: ${qg.status}"
-          }
-      }
-    }
-
-    if (suiteName == "VALIDATION" || suiteName == "ALL") {
-        try {
-            stage("run json validation tests") {
-                sh "./gradlew json_validation -Dbrowser.name=${browser} -Dthreads=${threads} -Dweb.remote.driver.url=${remoteUrl}"
-                sh 'exit 0'
-            }
-        }   catch (e) {
-                build_ok = false
-            }
-    } else {
-         echo "skipped stage VALIDATION"
+        bat 'gradle.bat clean assemble'
     }
 
     if (suiteName == "API" || suiteName == "ALL") {
 
         try {
             stage("run api tests") {
-                sh "./gradlew api -Dthreads=${threads} -Dweb.remote.driver.url=${remoteUrl}"
-                sh 'exit 0'
+                bat "gradle.bat api -Dthreads=${threads} -Dweb.remote.driver.url=${remoteUrl}"
+                bat 'exit /B 0'
             }
         }   catch (e) {
               build_ok = false
@@ -85,8 +57,8 @@ node {
     if (suiteName == "UI" || suiteName == "ALL") {
         try {
             stage("run ui tests") {
-                sh "./gradlew web -Dbrowser.name=${browser} -Dthreads=${threads} -Dweb.remote.driver.url=${remoteUrl}"
-                sh 'exit 0'
+                bat "gradle.bat web -Dbrowser.name=${browser} -Dthreads=${threads} -Dweb.remote.driver.url=${remoteUrl}"
+                bat 'exit /B 0'
             }
         }   catch (e) {
                 build_ok = false
