@@ -39,3 +39,5 @@ target/
 /gradlew
 /gradlew.bat
 /.gradle/
+
+!gradle/wrapper/*
