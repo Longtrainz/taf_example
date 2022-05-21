@@ -6,7 +6,8 @@ jdk:
   openjdk11
 
 before_script:
-  - chmod a+x gradlew
+#  - chmod a+x gradlew
+  - chmod +x gradlew
   - chmod +x gradle/wrapper/gradle-wrapper.jar
 
 script:
