@@ -14,7 +14,7 @@ jdk:
   - openjdk11
 
 before_install:
-  - curl -s https://aerokube.com/cm/bash | bash && ./cm selenoid start --vnc --tmpfs 128
+  - curl -k -s https://aerokube.com/cm/bash | bash && ./cm selenoid start --vnc --tmpfs 128
 
 before_script:
 #  - chmod a+x gradlew
