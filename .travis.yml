@@ -2,6 +2,9 @@ dist: trusty
 
 language: java
 
+addons:
+  chrome: stable
+
 jdk:
   openjdk8
 

@@ -23,6 +23,7 @@ public class TestBase {
 		RestAssured.baseURI = envConfig.apiUrl();
 		Configuration.baseUrl = envConfig.webUrl();
 		Configuration.timeout = 4000;
+		Configuration.headless = true;
 		DriverHelper.configureDriver();
 	}
 
