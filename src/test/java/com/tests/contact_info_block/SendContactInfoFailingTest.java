@@ -6,6 +6,7 @@ import com.tests.TestBase;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import io.qameta.allure.junit5.AllureJunit5;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -21,6 +22,7 @@ class SendContactInfoFailingTest extends TestBase {
     ContactInfo contactInfo = utils.getRandomContactInfo();
     HomePage homePage = new HomePage();
 
+    @Disabled
     @Test
     @DisplayName("Send contact info always failing test")
     void sendContactInfoFailingTest() {
