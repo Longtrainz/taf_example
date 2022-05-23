@@ -19,7 +19,11 @@ before_install:
 before_script:
 #  - chmod a+x gradlew
   - chmod +x gradlew
+  - chmod +x ./.upload_reports.sh
   - chmod +x gradle/wrapper/gradle-wrapper.jar
 
 script:
-  - ./gradlew clean test
+  - ./gradlew clean test allurereport
+
+after_script:
+  - "./.upload_reports.sh"
