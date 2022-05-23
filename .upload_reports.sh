@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-ARTIFACTS_DIR="./build/reports/allure-report/allureReport"
+ARTIFACTS_DIR="./build/reports/allure-report"
 ARTIFACTS_FILE=${TRAVIS_JOB_NUMBER}_log.tar.gz
 
 ls $ARTIFACTS_DIR
