@@ -35,6 +35,10 @@ public class DriverHelper {
     public static ChromeOptions getChromeOptions() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--no-sandbox");
+        // added for Gitlab CI
+        chromeOptions.addArguments("--headless");
+        // added for Gitlab CI
+        chromeOptions.addArguments("--disable-dev-shm-usage");
         chromeOptions.addArguments("--disable-infobars");
         chromeOptions.addArguments("--disable-popup-blocking");
         chromeOptions.addArguments("--disable-notifications");
