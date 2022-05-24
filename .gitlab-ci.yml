@@ -16,7 +16,7 @@ default:
     - source "$HOME/.sdkman/bin/sdkman-init.sh"
     - sdk version
     - sdk ls java
-    - sdk install java 11.0.7-open
+    - sdk install java 1.8.0-open
 
 
 build:
