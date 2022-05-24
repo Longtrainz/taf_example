@@ -1,0 +1,34 @@
+image: ubuntu:16.04
+
+stages:
+  - build
+  - test
+
+default:
+  before_script:
+    - apt-get update -y
+    - apt install curl zip unzip wget -y
+    - wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+    - echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' > /etc/apt/sources.list.d/google-chrome.list
+    - apt-get update
+    - apt install google-chrome-stable -y
+    - curl -s "https://get.sdkman.io" | bash
+    - source "$HOME/.sdkman/bin/sdkman-init.sh"
+    - sdk version
+    - sdk ls java
+    - sdk install java 11.0.7-open
+
+
+build:
+  stage: build
+  script:
+    - ./gradlew assemble
+
+ui-tests:
+  stage: test
+  script:
+    ./gradlew test allureReport
+  artifacts:
+    name: "allure report"
+    paths:
+      - ./build/reports/allure-report/
